@@ -12,7 +12,7 @@ Sistema de Eventos enconmendado pela Morena
 6. Execute os testes.
 
 ``` console
-git clone ....
+git clone https://github.com/gustavo7lagoas/eventex_wttd.git wttd
 cd wttd
 python -m veenv .wttd
 pip install -r requirements.txt
