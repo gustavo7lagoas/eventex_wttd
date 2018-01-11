@@ -15,7 +15,7 @@ Sistema de Eventos enconmendado pela Morena
 git clone https://github.com/gustavo7lagoas/eventex_wttd.git wttd
 cd wttd
 python -m veenv .wttd
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 cp contrib/env-sample .env
 python manage.py test 
 ```
