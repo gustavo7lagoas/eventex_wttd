@@ -1,15 +1,10 @@
 from django.conf import settings
 from django.contrib import messages
 from django.core import mail
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from eventex.subscriptions.forms import SubscriptionForm
-
-
-# TODO Refatorar por responsabilidades
-# refatorar parte send email
-# Default from email - utilizar o django.conf.settings
 from eventex.subscriptions.models import Subscription
 
 
