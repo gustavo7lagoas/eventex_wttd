@@ -47,9 +47,9 @@ class SubscribePostValid(TestCase):
                     email='test@mail.com', phone='938654321')
         self.response = self.client.post('/inscricao/', data)
 
-    @unittest.skip('How to get the uuid???')
     def test_post(self):
-        self.assertRedirects(self.response, '/inscricao/1/')
+        subscription = Subscription.objects.get(pk=1)
+        self.assertRedirects(self.response, '/inscricao/{}/'.format(subscription.uid))
 
     def test_send_subscribe_mail(self):
         self.assertEqual(1, len(mail.outbox))

@@ -14,9 +14,9 @@ def subscribe(request):
     else:
         return new(request)
 
-def detail(request, pk):
+def detail(request, uid):
     try:
-        subscription = Subscription.objects.get(pk=pk)
+        subscription = Subscription.objects.get(uid=uid)
         return render(request, 'subscriptions/subscription_detail.html',
                       {'subscription': subscription})
     except ObjectDoesNotExist:
@@ -42,7 +42,7 @@ def create(request):
                'subscriptions/subscription_email.txt',
                {'subscription': subscription})
 
-    return HttpResponseRedirect('/inscricao/{}/'.format(subscription.pk))
+    return HttpResponseRedirect('/inscricao/{}/'.format(subscription.uid))
 
 
 def _send_mail(subject, from_, to, template_name, context):

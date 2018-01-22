@@ -12,7 +12,7 @@ class SubscriptionDetailGet(TestCase):
             email='gustavo@mail.com',
             phone='938654321'
         )
-        self.response = self.client.get('/inscricao/{}/'.format(self.obj.pk))
+        self.response = self.client.get('/inscricao/{}/'.format(self.obj.uid))
 
     def test_get(self):
         self.assertEqual(200, self.response.status_code)
