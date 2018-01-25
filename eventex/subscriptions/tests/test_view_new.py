@@ -1,15 +1,14 @@
-import unittest
-
 from django.core import mail
 from django.test import TestCase
+from django.shortcuts import resolve_url as r
 
 from eventex.subscriptions.forms import SubscriptionForm
 from eventex.subscriptions.models import Subscription
 
 
-class SubscribeGet(TestCase):
+class SubscriptionsNewGet(TestCase):
     def setUp(self):
-        self.response = self.client.get('/inscricao/')
+        self.response = self.client.get(r('subscriptions:new'))
     def test_get(self):
         """ Get /inscricao/ must return status code 200 """
         self.assertEqual(200, self.response.status_code)
@@ -40,16 +39,16 @@ class SubscribeGet(TestCase):
         form = self.response.context['form']
         self.assertIsInstance(form, SubscriptionForm)
 
-class SubscribePostValid(TestCase):
+class SubscriptionsNewPostValid(TestCase):
     def setUp(self):
         """ Valid post should redirect to /inscricao/ """
         data = dict(name='Gustavo Fonseca', cpf='12345678901',
                     email='test@mail.com', phone='938654321')
-        self.response = self.client.post('/inscricao/', data)
+        self.response = self.client.post(r('subscriptions:new'), data)
 
     def test_post(self):
         subscription = Subscription.objects.get(pk=1)
-        self.assertRedirects(self.response, '/inscricao/{}/'.format(subscription.uid))
+        self.assertRedirects(self.response, r('subscriptions:detail', subscription.uid))
 
     def test_send_subscribe_mail(self):
         self.assertEqual(1, len(mail.outbox))
@@ -57,9 +56,9 @@ class SubscribePostValid(TestCase):
     def test_save_subscription(self):
         self.assertEqual(Subscription.objects.count(), 1)
 
-class SubscribePostInvalid(TestCase):
+class SubscriptionsNewPostInvalid(TestCase):
     def setUp(self):
-        self.response = self.client.post('/inscricao/', {})
+        self.response = self.client.post(r('subscriptions:new'), {})
 
     def test_post(self):
         """ Invalid POST should not redirect """

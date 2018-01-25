@@ -1,5 +1,6 @@
 from django.core import mail
 from django.test import TestCase
+from django.shortcuts import resolve_url as r
 
 
 class SubscribePostTest(TestCase):
@@ -7,7 +8,7 @@ class SubscribePostTest(TestCase):
         """ Valid post should redirect to /inscricao/ """
         data = dict(name='Gustavo Fonseca', cpf='12345678901',
                     email='test@mail.com', phone='938654321')
-        self.client.post('/inscricao/', data)
+        self.client.post(r('subscriptions:new'), data)
         self.email = mail.outbox[0]
 
     def test_subscription_email_subject(self):
