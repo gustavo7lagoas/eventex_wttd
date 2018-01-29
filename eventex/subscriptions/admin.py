@@ -14,13 +14,13 @@ from eventex.subscriptions.models import Subscription
     5- Abrir a list ordenada na ordem decrescente de datas - está no meta do modelo
 """
 class SubscriptionModelAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'phone', 'cpf', 'created_at', 'subscribed_today')
+    list_display = ('name', 'email', 'phone', 'cpf', 'created_at', 'subscribed_today', 'paid')
     date_hierarchy = 'created_at'
     search_fields = ['name', 'email', 'phone', 'cpf', 'created_at']
-    list_filter = ('created_at',)
+    list_filter = ('paid', 'created_at')
 
     def subscribed_today(self, obj):
-        return obj.created_at == now().today()
+        return obj.created_at.date() == now().today().date()
 
     subscribed_today.short_description = 'Criado hoje?'
     subscribed_today.boolean = True
