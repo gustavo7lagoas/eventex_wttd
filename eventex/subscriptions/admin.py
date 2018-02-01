@@ -22,8 +22,20 @@ class SubscriptionModelAdmin(admin.ModelAdmin):
     def subscribed_today(self, obj):
         return obj.created_at.date() == now().today().date()
 
+    actions = ['mark_as_paid']
+
     subscribed_today.short_description = 'Criado hoje?'
     subscribed_today.boolean = True
+
+    def mark_as_paid(self, request, queryset):
+        if queryset.count() == 1:
+            message = '{} inscrição foi marcada como pago'
+        else:
+            message = '{} inscrições foram marcadas como pagas'
+        self.message_user(request, message.format(queryset.count()))
+        queryset.update(paid=True)
+
+    mark_as_paid.short_description = 'Marcar como pago'
 
 """ Sem a classe de ModelAdmin apenas registra o modelo
     no admin do django
