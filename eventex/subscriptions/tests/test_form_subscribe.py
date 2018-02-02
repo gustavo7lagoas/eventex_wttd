@@ -9,6 +9,11 @@ class SubscriptionFormTest(TestCase):
         expected = ['name', 'cpf', 'email', 'phone']
         self.assertSequenceEqual(expected, list(form.fields))
 
+    def test_name_must_be_capitalized(self):
+        """ Name must be capitalized """
+        form = self.make_validated_form(name='GUSTAVO fonseca')
+        self.assertEqual('Gustavo Fonseca', form.cleaned_data['name'])
+
     def test_cpf_is_only_digit(self):
         """ CPF must contain only digits """
         form = self.make_validated_form(cpf='ASDF5678901')
