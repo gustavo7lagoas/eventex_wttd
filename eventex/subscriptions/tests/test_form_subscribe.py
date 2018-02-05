@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from eventex.subscriptions.forms import SubscriptionForm
 
@@ -23,6 +24,23 @@ class SubscriptionFormTest(TestCase):
     def test_cpf_has_11_digits(self):
         form = self.make_validated_form(cpf='1234')
         self.assertFormErrorCode(form, 'cpf', 'length')
+
+    def test_email_is_optional(self):
+        form = self.make_validated_form(email='')
+        self.assertFalse(form.errors.get('email'))
+
+    def test_phone_is_optional(self):
+        form = self.make_validated_form(phone='')
+        self.assertFalse(form.errors)
+
+    def test_must_inform_email_or_phone(self):
+        """ At least phone or email should be informed """
+        form = self.make_validated_form(email='', phone='')
+        self.assertListEqual(['__all__'], list(form.errors))
+
+    # def test_must_inform_email_or_phone_must_use_safe_get(self):
+    #     with self.assertRaises(ValidationError):
+    #         self.make_validated_form(email='asdf', phone='')
 
     def assertFormErrorCode(self, form, field, code):
         errors = form.errors.as_data()
