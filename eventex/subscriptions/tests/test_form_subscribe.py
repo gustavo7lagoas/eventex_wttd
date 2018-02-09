@@ -8,7 +8,8 @@ class SubscriptionFormTest(TestCase):
         """ Form must have 4 fields """
         form = SubscriptionForm()
         expected = ['name', 'cpf', 'email', 'phone']
-        self.assertSequenceEqual(expected, list(form.fields))
+        self.assertListEqual(expected, list(form.fields))
+        #self.assertSequenceEqual(expected, list(form.fields))
 
     def test_name_must_be_capitalized(self):
         """ Name must be capitalized """
