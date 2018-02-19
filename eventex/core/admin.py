@@ -1,9 +1,14 @@
 from django.contrib import admin
 
-from eventex.core.models import Speaker
+from eventex.core.models import Speaker, Contact
 
+
+class ContactInline(admin.TabularInline):
+    model = Contact
+    extra = 1
 
 class SpeakerModelAdmin(admin.ModelAdmin):
+    inlines = [ContactInline]
     list_display = ('name', 'speaker_img', 'website_link')
     prepopulated_fields = {'slug': ('name',)}
 
