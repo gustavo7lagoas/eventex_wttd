@@ -45,6 +45,7 @@ class HomeTest(TestCase):
             'href="{}#speakers"'.format(r('home')),
             'href="{}#sponsors"'.format(r('home')),
             'href="{}#register"'.format(r('home')),
+            'href="{}"'.format(r('talk_list')),
             'href="{}#venue"'.format(r('home'))
         ]
         for menu_item in navegation_menu:
