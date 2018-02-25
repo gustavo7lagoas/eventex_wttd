@@ -2,6 +2,9 @@
 
 Sistema de Eventos enconmendado pela Morena
 
+[![Build Status](https://travis-ci.org/gustavo7lagoas/eventex_wttd.svg?branch=master)](https://travis-ci.org/gustavo7lagoas/eventex_wttd)
+[![Code Health](https://landscape.io/github/gustavo7lagoas/eventex_wttd/master/landscape.svg?style=flat)](https://landscape.io/github/gustavo7lagoas/eventex_wttd/master)
+
 ## Como desenvolver?
 
 1. Clone o repositório
