@@ -9,7 +9,7 @@ class ContactInline(admin.TabularInline):
 
 class SpeakerModelAdmin(admin.ModelAdmin):
     inlines = [ContactInline]
-    list_display = ('name', 'speaker_img', 'website_link')
+    list_display = ('name', 'speaker_img', 'website_link', 'email', 'phone')
     prepopulated_fields = {'slug': ('name',)}
 
     def website_link(self, obj):
@@ -24,6 +24,15 @@ class SpeakerModelAdmin(admin.ModelAdmin):
     speaker_img.allow_tags = True
     speaker_img.short_description = 'Foto'
 
+    def email(self, obj):
+        return obj.contact_set.emails().first()
+
+    email.short_description = 'Email'
+
+    def phone(self, obj):
+        return obj.contact_set.phones().first()
+
+    phone.short_description = 'Telefone'
+
 admin.site.register(Speaker, SpeakerModelAdmin)
 admin.site.register(Talk)
-
