@@ -1,7 +1,7 @@
 from django.db import models
 from django.shortcuts import resolve_url as r
 
-from eventex.core.managers import KindQuerySet, PeriodManager
+from eventex.core.managers import KindQuerySet, PeriodManager, PeriodQuerySet
 
 
 class Speaker(models.Model):
@@ -43,6 +43,7 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.value
+
 
 class Talk(models.Model):
     title = models.CharField('Título', max_length=255)
