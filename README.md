@@ -13,17 +13,22 @@ Sistema de Eventos enconmendado pela Morena
 4. Instale as dependências
 5. Configure a instância com o .env
 6. Execute os testes.
+7. Execute as migrações
+8. Execute o servidor
 
 ``` console
 git clone https://github.com/gustavo7lagoas/eventex_wttd.git wttd
 cd wttd
-python -m veenv .wttd
+python -m venv .wttd
+./.wttd/Scripts/activate.bat
 pip install -r requirements-dev.txt
 cp contrib/env-sample .env
-python manage.py test 
+python manage.py test
+python manage.py migrate
+python manage.py runserver
 ```
 
-## Como fazer o deploy? 
+## Como fazer o deploy?
 
 1. Crie uma instância no heroku
 2. Envie as configurações para o heroku
