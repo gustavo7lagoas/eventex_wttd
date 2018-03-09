@@ -64,7 +64,9 @@
                         <img src="{{ speaker.photo }}">
                         <h4><a href="{{ speaker.get_absolute_url }}">{{ speaker.name }}</a></h4>
                     </div>
-                {% endfor %}
+                {% empty %}
+				        		<p>Palestrantes ainda serão confirmados.</p>
+				        {% endfor %}
             </div>
         </section>
 
