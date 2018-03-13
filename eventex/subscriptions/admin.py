@@ -18,6 +18,7 @@ class SubscriptionModelAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
     search_fields = ['name', 'email', 'phone', 'cpf', 'created_at']
     list_filter = ('paid', 'created_at')
+    readonly_fields = ('uid',)
 
     def subscribed_today(self, obj):
         return obj.created_at.date() == now().today().date()

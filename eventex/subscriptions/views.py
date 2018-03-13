@@ -1,50 +1,33 @@
 from django.conf import settings
 from django.core import mail
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render, resolve_url as r
 from django.template.loader import render_to_string
+from django.views.generic import DetailView
+from django.views.generic.edit import CreateView
+
 from eventex.subscriptions.forms import SubscriptionForm
 from eventex.subscriptions.models import Subscription
 
 
-def new(request):
-    if request.method == 'POST':
-        return create(request)
-    return empty_form(request)
+class SubscriptionCreate(CreateView):
+    model = Subscription
+    form_class = SubscriptionForm
 
-def empty_form(request):
-    return render(request, 'subscriptions/subscription_form.html',
-                  {'form': SubscriptionForm()})
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.send_mail()
+        return response
 
+    def send_mail(self):
+        # send subscription email
+        subject = 'Confirmação de inscrição'
+        from_ = settings.DEFAULT_FROM_EMAIL
+        to = self.object.email
+        template_name = 'subscriptions/subscription_email.txt'
+        context = {'subscription': self.object}
 
-def detail(request, uid):
-    try:
-        subscription = Subscription.objects.get(uid=uid)
-        return render(request, 'subscriptions/subscription_detail.html',
-                      {'subscription': subscription})
-    except ObjectDoesNotExist:
-        raise Http404
-
-
-def create(request):
-    form = SubscriptionForm(request.POST)
-
-    if not form.is_valid():
-        return render(request, 'subscriptions/subscription_form.html',
-                      {'form': form})
-
-    subscription = form.save()
-
-    _send_mail('Confirmação de inscrição',
-               settings.DEFAULT_FROM_EMAIL,
-               form.cleaned_data['email'],
-               'subscriptions/subscription_email.txt',
-               {'subscription': subscription})
-
-    return HttpResponseRedirect(r('subscriptions:detail', subscription.uid))
+        body = render_to_string(template_name, context)
+        return mail.send_mail(subject, body, from_, [from_, to])
 
 
-def _send_mail(subject, from_, to, template_name, context):
-    body = render_to_string(template_name, context)
-    mail.send_mail(subject, body, from_, [from_, to])
+detail = DetailView.as_view(model=Subscription, slug_field='uid', slug_url_kwarg='uid')
+new = SubscriptionCreate.as_view()
