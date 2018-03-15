@@ -13,6 +13,9 @@ from eventex.subscriptions.models import Subscription
     4- Filtro com o atributo created-at
     5- Abrir a list ordenada na ordem decrescente de datas - está no meta do modelo
 """
+
+
+# TODO: test this
 class SubscriptionModelAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'phone', 'cpf', 'created_at', 'subscribed_today', 'paid')
     date_hierarchy = 'created_at'

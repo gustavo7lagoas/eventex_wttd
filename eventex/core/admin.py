@@ -7,6 +7,8 @@ class ContactInline(admin.TabularInline):
     model = Contact
     extra = 1
 
+
+# TODO: test this
 class SpeakerModelAdmin(admin.ModelAdmin):
     inlines = [ContactInline]
     list_display = ('name', 'speaker_img', 'website_link', 'email', 'phone')

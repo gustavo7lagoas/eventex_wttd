@@ -4,6 +4,12 @@ from eventex.subscriptions.validators import validate_cpf
 from django.shortcuts import resolve_url as r
 
 
+"""
+    https://django-localflavor.readthedocs.io/en/latest/localflavor/br/
+    About packaging
+    https://python-packaging.readthedocs.io/en/latest/
+    """
+# TODO: create my own cpf field - without django flavors
 class Subscription (models.Model):
     name = models.CharField('nome', max_length=100)
     cpf = models.CharField('CPF', max_length=11, validators=[validate_cpf])
