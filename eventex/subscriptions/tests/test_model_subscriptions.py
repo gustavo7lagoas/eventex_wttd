@@ -3,6 +3,7 @@ from django.test import TestCase
 from eventex.subscriptions.models import Subscription
 from django.shortcuts import resolve_url as r
 
+
 class ModelSubscriptionsTest(TestCase):
     def setUp(self):
         self.obj = Subscription(

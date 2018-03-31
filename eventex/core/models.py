@@ -63,9 +63,6 @@ class Talk(models.Model):
         return self.title
 
 
-"""
-TODO: migração backwards
-"""
 class Course(Talk):
     slots = models.IntegerField()
 

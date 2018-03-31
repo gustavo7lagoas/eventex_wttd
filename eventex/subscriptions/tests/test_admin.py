@@ -1,6 +1,9 @@
+import datetime
 from unittest.mock import Mock
 
 from django.test import TestCase
+from django.utils import timezone
+
 from eventex.subscriptions.models import Subscription
 from eventex.subscriptions.admin import SubscriptionModelAdmin, admin
 
@@ -14,23 +17,28 @@ class SubscriptionModelAdminTest(TestCase):
             email='test@mail.com',
             phone='938654321'
         )
+        self.subscription = Subscription(created_at=timezone.now())
+
+    def test_subscribed_one_day_ago(self):
+        self.subscription.created_at = timezone.now() + datetime.timedelta(hours=24)
+        self.assertFalse(self.model_admin.subscribed_today(self.subscription))
+
+    def test_subscribed_just_now(self):
+        self.assertTrue(self.model_admin.subscribed_today(self.subscription))
 
     def test_has_action(self):
         """ Action mark_as_paid should be installed """
         self.assertIn('mark_as_paid', self.model_admin.actions)
-
 
     def test_mark_all(self):
         """ It should mark all selected subscription as paid """
         self.call_action_mark_as_paid()
         self.assertEqual(1, Subscription.objects.filter(paid=True).count())
 
-
     def test_message(self):
         """ It should send message to the user """
         mock = self.call_action_mark_as_paid()
         mock.assert_called_once_with(None, '1 inscrição foi marcada como pago')
-
 
     def call_action_mark_as_paid(self):
         selected_subscriptions = Subscription.objects.all()
